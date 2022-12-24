@@ -12,13 +12,16 @@ public class Task
     public int[] Ans { get; set; }
 }
 
+//для использования разных типов получения вопросов раскомментировать и закомментировать
+//соответствующие строки в Main
 public class Program
 {
     public static void Main()
     {
         Console.WriteLine("to finish and look statistics type in 'stop' after answering a question");
         var questions = Parce();
-        var results = FromBeginnig(questions);
+        //var results = RandomOrder(questions);
+        var results = FromPosition(questions, 2);
         Console.WriteLine($"successful are {results.success} of {results.amount}");
         Console.WriteLine($"which is {results.success * 100 / (double)results.amount}%");
     }
@@ -43,12 +46,13 @@ public class Program
         return (success, amount);
     }
 
-    private static (int success, int amount) FromBeginnig(List<Task> questions)
+    private static (int success, int amount) FromPosition(List<Task> questions, int position)
     {
         var success = 0;
         var amount = 0;
-        foreach (var question in questions)
+        for (int i = position; i < questions.Count; i++)
         {
+            var question = questions[i];
             amount++;
             var isRight = AskQuestion(question);
             if (isRight) { success++; }
